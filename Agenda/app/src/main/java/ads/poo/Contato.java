@@ -1,25 +1,20 @@
-package main.java.ads.poo;
+package ads.poo;
 
 import java.time.LocalDate;
 
 public class Contato {
     private String nome;
     private String sobrenome;
-    private LocalDate dataNasc;
-    private ColecaoTelefone telefones;
-    private ColecaoEmail emails;
+    private LocalDate dataNascimento;
+    private ColecaoEmail emails = new ColecaoEmail();
+    private ColecaoTelefone telefones = new ColecaoTelefone();
 
-    //Constructor
-    public Contato(String nome, String sobrenome, LocalDate dataNasc) {
+    public Contato(String nome, String sobrenome, LocalDate dataNascimento) {
         this.nome = nome;
         this.sobrenome = sobrenome;
-        this.dataNasc = dataNasc;
-        telefones = new ColecaoTelefone();
-        emails = new ColecaoEmail();
+        this.dataNascimento = dataNascimento;
+
     }
-
-    //Getters
-
     public String getNome() {
         return nome;
     }
@@ -28,40 +23,35 @@ public class Contato {
         return sobrenome;
     }
 
-    //Methods
-    public boolean addTelefone(String rotulo, String valor){
-        return telefones.add(rotulo, valor);
+    public boolean addEmail(String email, String rotulo) {
+        return emails.add(email,rotulo);
     }
 
-    public boolean addEmail(String rotulo, String valor){
-        return emails.add(rotulo, valor);
+    public boolean addTelefone(String telefone, String rotulo) {
+        return telefones.add(rotulo, telefone);
     }
 
-    public boolean removeTelefone(String rotulo){
+    public boolean removeTelefone(String rotulo) {
         return telefones.remove(rotulo);
     }
-
     public boolean removeEmail(String rotulo){
         return emails.remove(rotulo);
     }
 
-    public boolean updateTelefone(String rotulo, String valor){
-        return telefones.update(rotulo, valor);
+    public boolean updateTelefone(String telefone, String rotulo) {
+       return telefones.update(telefone,rotulo);
+    }
+    public boolean updateEmail(String email, String rotulo) {
+        return emails.update(email,rotulo);
     }
 
-    public boolean updateEmail(String rotulo, String valor){
-        return emails.update(rotulo, valor);
-    }
-
-    //toString
-    @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("------------------------------\n");
-        sb.append("Nome: ").append(nome).append("\n");
-        sb.append("Sobrenome: ").append(sobrenome).append("\n");
-        sb.append("Data de Nascimento: ").append(dataNasc).append("\n");
-        sb.append("Telefones: ").append("\n").append(telefones);
-        sb.append("Emails:").append("\n").append(emails);
-        return sb.toString();
+        return "========================================\n" +
+                "Contato: " + nome + " " + sobrenome + "\n" +
+                "Data de Nascimento: " + dataNascimento + "\n\n" +
+                "Emails:\n" + emails + "\n" +
+                "Telefones:\n" + telefones + "\n" +
+                "========================================\n";
     }
+
 }
