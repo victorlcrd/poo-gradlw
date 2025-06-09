@@ -44,19 +44,39 @@
 ```mermaid
     classDiagram
         
-        class Aviao{
-            - tripulantes : int
-            - passagem : int
-            - peso : 
-            - propulsor: Motor
-            + Aviao() 
-         
+        class Livro{
+            -isbn : String
+            -titulo : String
+            -idioma : String
+            -ano : int
+            -edicao : int
+            -autores : ArrayList<Autor>
+            -edicoes : ArrayList<Edicao>
+            -editora: Editora
             }
             
-        class Motor{
-            
+        class Editora{
+            -idEditora : int
+            -nome : String
+            -cidade : String
             }
             
-            Aviao"1" o-- "1.8"Motor
+            class Autor {
+                -idAutor : int
+                -nome : String
+            }
+            
+            class Edicao{
+                -idEdicao : int
+                -paginas : int
+                -anoEdicao : int
+                -ibsnEdicao : String
+                -editora : Editora
+            }
+            
+            Edicao"1" o-- "1"Editora
+            Livro"1" o-- "1"Edicao
+            Livro"1" o-- "1"Autor
+            
             
 ```
