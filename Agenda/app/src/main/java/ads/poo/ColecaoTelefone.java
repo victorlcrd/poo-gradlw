@@ -1,36 +1,65 @@
-package main.java.ads.poo;
+package ads.poo;
 
+import javax.swing.text.MaskFormatter;
+import java.text.ParseException;
 import java.util.HashMap;
 
 public class ColecaoTelefone {
-    private HashMap<String, String> colecaoTelefone;
+    private HashMap<String, String> dados = new HashMap<>();
 
-    public ColecaoTelefone() {
-        colecaoTelefone = new HashMap<>();
-    }
+    public boolean add(String rotulo, String telefone) {
+        String eR = "^[0-9]+$";
 
-    public boolean add(String rotulo, String contato){
-        colecaoTelefone.put(rotulo, contato);
-        return colecaoTelefone.containsKey(rotulo);
-    }
-
-    public boolean remove(String rotulo){
-        colecaoTelefone.entrySet().removeIf(contato -> contato.getKey().equals(rotulo));
-        return !colecaoTelefone.containsKey(rotulo);
-    }
-
-    public boolean update(String rotulo, String valor){
-        if (!colecaoTelefone.containsKey(rotulo)){
-            return false;
+        if (telefone.matches(eR) && dados.get(rotulo) == null) {
+            dados.put(rotulo, telefone);
+            return true;
         }
-        colecaoTelefone.replace(rotulo, valor);
-        return true;
+        return false;
+    }
+
+    public boolean remove(String rotulo) {
+        if (dados.containsKey(rotulo)) {
+            dados.remove(rotulo);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean update(String rotulo, String telefone) {
+        String eR = "^[0-9]+$";
+        if (telefone.matches(eR) && dados.containsKey(rotulo)) {
+            dados.put(rotulo, telefone);
+            return true;
+        }
+
+        return false;
+    }
+
+    public String formata(String mascara, String valor) {
+        MaskFormatter mask = null;
+        String resultado = "";
+        try {
+            mask = new MaskFormatter(mascara);
+            mask.setValueContainsLiteralCharacters(false);
+            mask.setPlaceholderCharacter('_');
+            resultado = mask.valueToString(valor);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return resultado;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        colecaoTelefone.forEach((chave, valor) -> sb.append("    - " + chave + ": " + valor + "\n"));
+        StringBuilder sb = new StringBuilder();
+
+        dados.forEach((rotulo, telefone) ->
+                sb.append(rotulo)
+                        .append(": +")
+                        .append(formata("##(##)#####-###", telefone))
+                        .append("\n")
+        );
+
         return sb.toString();
     }
 }
