@@ -1,151 +1,184 @@
 package ads.poo;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class App {
-    private Agenda agenda;
-    private Scanner sc;
+    Scanner sc = new Scanner(System.in);
+    Agenda agenda = new Agenda();
 
-    public App(Agenda agenda) {
-        this.agenda = agenda;
-        this.sc = new Scanner(System.in);
+    public void cadastrar(){
+        System.out.println("Digite o Nome: ");
+        String nome = sc.nextLine();
+
+
+        System.out.println("Digite o Sobrenome:");
+        String sobrenome = sc.nextLine();
+
+        System.out.println("Data de Nascimento (yyyy-mm-dd)");
+        LocalDate data = LocalDate.parse(sc.nextLine());
+
+        System.out.println("Adicione o Email:");
+        String email = sc.nextLine();
+        System.out.println("Tipo do Email:");
+        String tEmail = sc.nextLine();
+
+        System.out.println("Adicione o Telefone");
+        String telefone = sc.nextLine();
+        System.out.println("Tipo do Telefone");
+        String ttelefone = sc.nextLine();
+        sc.nextLine();
+
+        Contato c = new Contato(nome,sobrenome,data);
+        c.addEmail(email,tEmail);
+        c.addTelefone(telefone,ttelefone);
+        agenda.addContatos(c);
+
+        System.out.println("Contato Cadastrado");
     }
-    public static void main(String[] args) {
-        Agenda agenda = new Agenda();
-        App app = new App(agenda);
-        app.menu();
+
+    public boolean removerContato(){
+        System.out.println("Digite o Indice do Contato: ");
+        int i = sc.nextInt();
+        sc.nextLine();
+
+        boolean removido = agenda.removeContato(i);
+
+        if (!removido) {
+            System.out.println("Contato inválido.");
+            return false;
+        }
+        System.out.println("Contato removido com sucesso.");
+        return true;
     }
 
-    public void menu() {
-        int op;
-        do {
-            System.out.println("\n===== MENU AGENDA =====");
-            System.out.println("1. Adicionar contato");
-            System.out.println("2. Listar contatos");
-            System.out.println("3. Adicionar telefone a contato");
-            System.out.println("4. Adicionar email a contato");
-            System.out.println("5. Remover contato");
-            System.out.println("6. Remover telefone de contato");
-            System.out.println("7. Remover email de contato");
-            System.out.println("8. Sair");
-            System.out.print("Escolha uma opção: ");
-            op = Integer.parseInt(sc.nextLine());
+    public void consultaContato(){
+        System.out.println("Digite o Nome: ");
+        String nome = sc.nextLine();
 
-            switch (op) {
+
+        System.out.println("Digite o Sobrenome:");
+        String sobrenome = sc.nextLine();
+
+
+        agenda.findContato(nome,sobrenome);
+    }
+    public void consultaListaDeContatos(){
+        System.out.println(agenda.toString());
+    }
+    public void atualizarContato(){
+        System.out.println("""
+                Digite o Numero:
+                1- Atualizar Email
+                2- Atualizar Telefone
+                """);
+        int c = sc.nextInt();
+        sc.nextLine();
+        if(c == 1){
+            System.out.println("Atualize o Email:");
+            String email = sc.nextLine();
+            System.out.println("Tipo do Email:");
+            String tEmail = sc.nextLine();
+            System.out.println("Digite o Indice do contato");
+            int indicee = sc.nextInt();
+            sc.nextLine();
+            agenda.updateEmail(tEmail,email,indicee);
+        } else if (c == 2) {
+            System.out.println("Adicione o Telefone");
+            String telefone = sc.nextLine();
+            System.out.println("Tipo do Telefone");
+            String ttelefone = sc.nextLine();
+            System.out.println("Digite o Indice do contato");
+           int indicet = sc.nextInt();
+            sc.nextLine();
+            agenda.updateTelefone(ttelefone,telefone,indicet);
+
+        }else{
+            System.out.println("Opção invalida");
+        }
+
+    }
+    public void adicionarET(){
+        System.out.println("""
+                Digite o Numero:
+                1- Adicionar Email
+                2- Adicioanar Telefone
+                """);
+        int c = sc.nextInt();
+        sc.nextLine();
+        if(c == 1){
+            System.out.println("Adicione o Email:");
+            String email = sc.nextLine();
+            System.out.println("Tipo do Email:");
+            String tEmail = sc.nextLine();
+            System.out.println("Digite o Indice do contato");
+            int indicee = sc.nextInt();
+            sc.nextLine();
+            agenda.addEmail(tEmail,email,indicee);
+        } else if (c == 2) {
+            System.out.println("Adicione o Telefone");
+            String telefone = sc.nextLine();
+            System.out.println("Tipo do Telefone");
+            String ttelefone = sc.nextLine();
+            System.out.println("Digite o Indice do contato");
+            int indicet = sc.nextInt();
+            sc.nextLine();
+            agenda.addTelefone(ttelefone,telefone,indicet);
+
+        }else{
+            System.out.println("Opção invalida");
+        }
+    }
+
+
+    public void menu(){
+        int c =0;
+        while (c != 7) {
+            System.out.println(
+                    """ 
+                                    __________ Agenda _____________
+                                    1- Cadastrar Contato
+                                    2- Atulizar Contato
+                                    3- Remover Contato
+                                    4- Consultar Contato
+                                    5- Consutar lista de Contatos
+                                    6- Adicionar Email ou Telefone
+                                    7- Sair da Agenda    
+                            """
+            );
+            c = sc.nextInt();
+            sc.nextLine();
+            if (c > 7 || c < 1) {
+                System.out.println("Opção Invalida");
+            }
+            switch (c){
                 case 1:
-                    adicionarContato();
+                    cadastrar();;
                     break;
                 case 2:
-                    listarContatos();
+                    atualizarContato();
                     break;
                 case 3:
-                    adicionarTelefone();
-                    break;
-                case 4:
-                    adicionarEmail();
-                    break;
-                case 5:
                     removerContato();
                     break;
+                case 4:
+                    consultaContato();
+                    break;
+                case 5:
+                    consultaListaDeContatos();
+                    break;
                 case 6:
-                    removerTelefone();
+                    adicionarET();
                     break;
-                case 7:
-                    removerEmail();
-                    break;
-                case 8:
-                    System.out.println("Saindo...");
-                    break;
-                default:
-                    System.out.println("Opção inválida!");
             }
-        } while (op != 8);
-    }
-
-    private void adicionarContato() {
-        System.out.print("Nome: ");
-        String nome = sc.nextLine();
-        System.out.print("Sobrenome: ");
-        String sobrenome = sc.nextLine();
-        System.out.print("Data de nascimento (AAAA-MM-DD): ");
-        String data = sc.nextLine();
-        Contato c = new Contato(nome, sobrenome, data);
-        agenda.addContato(c);
-        System.out.println("Contato adicionado!");
-    }
-
-    private void listarContatos() {
-        System.out.println("\nContatos:");
-        System.out.println(agenda);
-    }
-
-    private void adicionarTelefone() {
-        listarContatos();
-        System.out.print("Índice do contato: ");
-        int idx = Integer.parseInt(sc.nextLine());
-        System.out.print("Rótulo do telefone: ");
-        String rotulo = sc.nextLine();
-        System.out.print("Número (11 dígitos): ");
-        String numero = sc.nextLine();
-        if (agenda.addTelefone(rotulo, numero, idx)) {
-            System.out.println("Telefone adicionado!");
-        } else {
-            System.out.println("Falha ao adicionar telefone.");
         }
     }
 
-    private void adicionarEmail() {
-        listarContatos();
-        System.out.print("Índice do contato: ");
-        int idx = Integer.parseInt(sc.nextLine());
-        System.out.print("Rótulo do email: ");
-        String rotulo = sc.nextLine();
-        System.out.print("Email: ");
-        String email = sc.nextLine();
-        if (agenda.addEmail(rotulo, email, idx)) {
-            System.out.println("Email adicionado!");
-        } else {
-            System.out.println("Falha ao adicionar email.");
-        }
+
+    public static void main(String[] args) {
+       App app = new App();
+       app.menu();
+
+
     }
-
-    private void removerContato() {
-        listarContatos();
-        System.out.print("Índice do contato para remover: ");
-        int idx = Integer.parseInt(sc.nextLine());
-        if (agenda.removeContato(idx)) {
-            System.out.println("Contato removido!");
-        } else {
-            System.out.println("Índice inválido.");
-        }
-    }
-
-    private void removerTelefone() {
-        listarContatos();
-        System.out.print("Índice do contato: ");
-        int idx = Integer.parseInt(sc.nextLine());
-        System.out.print("Rótulo do telefone para remover: ");
-        String rotulo = sc.nextLine();
-        if (agenda.removeTelefone(rotulo, idx)) {
-            System.out.println("Telefone removido!");
-        } else {
-            System.out.println("Falha ao remover telefone.");
-        }
-    }
-
-    private void removerEmail() {
-        listarContatos();
-        System.out.print("Índice do contato: ");
-        int idx = Integer.parseInt(sc.nextLine());
-        System.out.print("Rótulo do email para remover: ");
-        String rotulo = sc.nextLine();
-        if (agenda.removeEmail(rotulo, idx)) {
-            System.out.println("Email removido!");
-        } else {
-            System.out.println("Falha ao remover email.");
-        }
-    }
-
-    
-
 }
