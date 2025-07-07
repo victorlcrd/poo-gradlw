@@ -11,10 +11,7 @@ classDiagram
     Horista ..|> Salario
     Horista ..|> HoraExtra
     Comissionado ..|> Salario
-    ComissionadoEfetivo ..|> Salario
-    Comissionado ..|> PercentualVendas
-    ComissionadoEfetivo ..|> PercentualVendas
-    
+    Comissionado ..|> PercentualVendas    
     
     
    class Funcionario {
