@@ -5,7 +5,7 @@ classDiagram
     Funcionario <|-- MensalFixo
     Funcionario <|-- Horista
     Funcionario <|-- Comissionado
-    Funcionario <|-- ComissionadoEfetivo
+    Comissionado <|-- ComissionadoEfetivo
     
     MensalFixo ..|> Salario
     Horista ..|> Salario
